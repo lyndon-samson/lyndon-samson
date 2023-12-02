@@ -456,6 +456,39 @@ impl1.c</p>
 
 <p>Lets look at how to compile and run the code now.</p>
 
+<p>We need an environment to run the c compiler, we will use an Unbuntu container in which we will install the compiler suite.</p>
+
+<p>Run the container</p>
+
+<p>Install the c compiler.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">apt update
+apt <span class="nb">install </span>build-essential
+apt-get <span class="nb">install </span>manpages-dev</code></pre></figure>
+
+<p>Since the compiler installation can take a long time, you may want to snapshot the container to speed up subsequent runs.</p>
+
+<p>Replace the container id with your running container after installing and execute this command</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker commit 1f41e3e589ad ubuntugcc</code></pre></figure>
+
+<p>Then, to compile the server</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">gcc server.c <span class="nt">-ldl</span></code></pre></figure>
+
+<p>To compile the logic into dynamic libraries</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">gcc impl1.c <span class="nt">-c</span> <span class="nt">-fPIC</span>
+gcc impl2.c <span class="nt">-c</span> <span class="nt">-fPIC</span>
+gcc impl1.o <span class="nt">-shared</span> <span class="nt">-o</span> libimpl1.so
+gcc impl2.o <span class="nt">-shared</span> <span class="nt">-o</span> libimpl2.so</code></pre></figure>
+
+<p>Look at the files in the directory, they should look something like this</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">ls</span> <span class="nt">-ltr</span> </code></pre></figure>
+
+<p>Great, now we can run the server, and telnet to it as a client.</p>
+
 
   </div><a class="u-url" href="/lyndon-samson/programming/c/2023/12/01/c-server.html" hidden></a>
 </article>

@@ -223,4 +223,48 @@ int server_loop(void (*sendstr)(char *msg), int(readinput)(char *b, int bsz) ) {
 
 Lets look at how to compile and run the code now.
 
+We need an environment to run the c compiler, we will use an Unbuntu container in which we will install the compiler suite.
+
+
+Run the container
+
+Install the c compiler.
+
+{% highlight bash %}
+apt update
+apt install build-essential
+apt-get install manpages-dev
+{% endhighlight %}
+
+Since the compiler installation can take a long time, you may want to snapshot the container to speed up subsequent runs.
+
+Replace the container id with your running container after installing and execute this command
+{% highlight  bash %}
+docker commit 1f41e3e589ad ubuntugcc
+{% endhighlight %}
+
+
+
+Then, to compile the server
+
+{% highlight bash %}
+gcc server.c -ldl
+{% endhighlight %}
+
+To compile the logic into dynamic libraries
+{% highlight bash %}
+gcc impl1.c -c -fPIC
+gcc impl2.c -c -fPIC
+gcc impl1.o -shared -o libimpl1.so
+gcc impl2.o -shared -o libimpl2.so
+{%  endhighlight %}
+
+Look at the files in the directory, they should look something like this
+
+{% highlight bash %}
+ls -ltr 
+{% endhighlight %}
+
+Great, now we can run the server, and telnet to it as a client.
+
 
