@@ -341,7 +341,7 @@ Connection closed by foreign host.
 samsonl@lyndonslaptop:~/src/c/pgm1$
 {% endhighlight %}
 
-I thought it was cool anyway :-) The logic code in the implmentations doesn't know anything about the network activity, that's all managed by the server code.
+I thought it was cool anyway :-) The logic code in the implementations doesn't know anything about the network activity, that's all managed by the server code.
 
 Source code in the repo here -> [https://github.com/lyndon-samson/c-server](https://github.com/lyndon-samson/c-server)
 
