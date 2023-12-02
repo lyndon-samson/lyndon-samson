@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://lyndon-samson.github.io/lyndon-samson/feed.xml" rel="self" type="application/atom+xml" /><link href="https://lyndon-samson.github.io/lyndon-samson/" rel="alternate" type="text/html" /><updated>2023-12-02T01:38:54-06:00</updated><id>https://lyndon-samson.github.io/lyndon-samson/feed.xml</id><title type="html">Lyndon Samsons Home Page</title><subtitle>Some things I like to make available online.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="https://lyndon-samson.github.io/lyndon-samson/jekyll/update/2023/12/01/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2023-12-01T06:41:38-06:00</published><updated>2023-12-01T06:41:38-06:00</updated><id>https://lyndon-samson.github.io/lyndon-samson/jekyll/update/2023/12/01/welcome-to-jekyll</id><content type="html" xml:base="https://lyndon-samson.github.io/lyndon-samson/jekyll/update/2023/12/01/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://lyndon-samson.github.io/lyndon-samson/feed.xml" rel="self" type="application/atom+xml" /><link href="https://lyndon-samson.github.io/lyndon-samson/" rel="alternate" type="text/html" /><updated>2023-12-02T01:44:49-06:00</updated><id>https://lyndon-samson.github.io/lyndon-samson/feed.xml</id><title type="html">Lyndon Samsons Home Page</title><subtitle>Some things I like to make available online.</subtitle><entry><title type="html">Welcome to Jekyll!</title><link href="https://lyndon-samson.github.io/lyndon-samson/jekyll/update/2023/12/01/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2023-12-01T06:41:38-06:00</published><updated>2023-12-01T06:41:38-06:00</updated><id>https://lyndon-samson.github.io/lyndon-samson/jekyll/update/2023/12/01/welcome-to-jekyll</id><content type="html" xml:base="https://lyndon-samson.github.io/lyndon-samson/jekyll/update/2023/12/01/welcome-to-jekyll.html">&lt;p&gt;You’ll find this post in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt;, which launches a web server and auto-regenerates your site when a file is updated.&lt;/p&gt;
 
 &lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
 
@@ -176,7 +176,8 @@
 
 &lt;p&gt;Now lets look at 2 examples of dynamically loaded logic for the tcp server.&lt;/p&gt;
 
-&lt;p&gt;impl1.c&lt;/p&gt;
+&lt;p&gt;This logic implements a guess the number game, it takes one parameter (the number to guess).
+impl1.c&lt;/p&gt;
 
 &lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-c&quot; data-lang=&quot;c&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
 2
@@ -288,7 +289,7 @@
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;And here is a different implementation&lt;/p&gt;
+&lt;p&gt;And here is a different implementation, this code takes 3 parameters, a number, and operator and another number. The user needs to provide the correct value for the maths operation.&lt;/p&gt;
 
 &lt;p&gt;impl2.c&lt;/p&gt;
 
@@ -418,4 +419,6 @@
 
   &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;</content><author><name></name></author><category term="programming" /><category term="c" /><summary type="html">Hi Everyone this post is about an experiment with a c network server and dynamically loaded custom logic with no change to the server base code.</summary></entry></feed>
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Lets look at how to compile and run the code now.&lt;/p&gt;</content><author><name></name></author><category term="programming" /><category term="c" /><summary type="html">Hi Everyone this post is about an experiment with a c network server and dynamically loaded custom logic with no change to the server base code.</summary></entry></feed>

@@ -93,6 +93,7 @@ Not much too it, under 100 lines of simple code. Note this code is very basic an
 
 Now lets look at 2 examples of dynamically loaded logic for the tcp server.
 
+This logic implements a guess the number game, it takes one parameter (the number to guess).
 impl1.c
 {% highlight c linenos  %}
 #include "stdio.h"
@@ -151,7 +152,7 @@ int server_loop(void (*sendstr)(char *msg), int(readinput)(char *b, int bsz) ) {
 }
 {% endhighlight %}
 
-And here is a different implementation
+And here is a different implementation, this code takes 3 parameters, a number, and operator and another number. The user needs to provide the correct value for the maths operation.
 
 impl2.c
 {% highlight c linenos %}
@@ -219,4 +220,7 @@ int server_loop(void (*sendstr)(char *msg), int(readinput)(char *b, int bsz) ) {
   return run;
 }
 {% endhighlight %}
+
+Lets look at how to compile and run the code now.
+
 
