@@ -343,6 +343,6 @@ samsonl@lyndonslaptop:~/src/c/pgm1$
 
 I thought it was cool anyway :-) The logic in the implmentations doesnt know anything about the network activity, thats all managed by the server code.
 
-source code in the repo here -> [https://github.com/lyndon-samson/c-server]
+source code in the repo here -> [https://github.com/lyndon-samson/c-server](https://github.com/lyndon-samson/c-server)
 
 
