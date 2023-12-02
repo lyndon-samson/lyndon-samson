@@ -51,6 +51,8 @@
 
 <p>Here is the server code</p>
 
+<p>server.c</p>
+
 <figure class="highlight"><pre><code class="language-c" data-lang="c"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
@@ -203,7 +205,253 @@
 <span class="p">}</span>
 </pre></td></tr></tbody></table></code></pre></figure>
 
-<p>Not much too it</p>
+<p>Not much too it, under 100 lines of simple code. Note this code is very basic and probably subject to many vulnerabilities and exploits so its for example purposes only.</p>
+
+<p>Now lets look at 2 examples of dynamically loaded logic for the tcp server.</p>
+
+<p>impl1.c</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+</pre></td><td class="code"><pre><span class="cp">#include "stdio.h"
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+</span><span class="c1">// --------------</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">num</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">server_start</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="n">num</span>    <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Users have to guess this %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">num</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">server_end</span><span class="p">()</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">"The user guessed the number, exiting server</span><span class="se">\n</span><span class="s">"</span><span class="p">);}</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="nf">server_prompt</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sendstr</span><span class="p">)(</span><span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+  <span class="n">strcpy</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span><span class="s">"Guess the number:"</span><span class="p">);</span>
+
+  <span class="n">sendstr</span><span class="p">(</span><span class="n">buff</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">buff</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">server_logic</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buff</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">resp</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">run</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">guess</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">buff</span><span class="p">);</span>
+
+  <span class="k">if</span> <span class="p">(</span> <span class="n">guess</span> <span class="o">==</span> <span class="n">num</span> <span class="p">)</span> <span class="p">{</span>
+     <span class="n">strcpy</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">"Correct</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+     <span class="n">run</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">guess</span> <span class="o">&lt;</span> <span class="n">num</span> <span class="p">)</span>
+     <span class="n">strcpy</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">"Try again, it is higher</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+  <span class="k">else</span>
+     <span class="n">strcpy</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">"Try again, it is lower</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">run</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">server_loop</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sendstr</span><span class="p">)(</span><span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">),</span> <span class="kt">int</span><span class="p">(</span><span class="n">readinput</span><span class="p">)(</span><span class="kt">char</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">bsz</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="n">server_prompt</span><span class="p">(</span><span class="n">sendstr</span><span class="p">);</span>
+
+  <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">run</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="n">n</span> <span class="o">=</span> <span class="n">readinput</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Client Sent:%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">buff</span><span class="p">);</span>
+  <span class="n">run</span> <span class="o">=</span> <span class="n">server_logic</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">resp</span><span class="p">);</span>
+  <span class="n">sendstr</span><span class="p">(</span><span class="n">resp</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">run</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
+
+<p>And here is a different implementation</p>
+
+<p>impl2.c</p>
+
+<figure class="highlight"><pre><code class="language-c" data-lang="c"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+</pre></td><td class="code"><pre><span class="cp">#include "stdio.h"
+#include &lt;sys/socket.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;netinet/in.h&gt;
+#include &lt;arpa/inet.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+</span><span class="c1">// --------------</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">op1</span> <span class="p">;</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">op2</span> <span class="p">;</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">operator</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">server_start</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">argv</span><span class="p">[])</span> <span class="p">{</span>
+  <span class="n">op1</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+  <span class="n">op2</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">]);</span>
+  <span class="n">operator</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Users have to answer the math question correctly (%d %c %d)</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">op1</span><span class="p">,</span><span class="n">operator</span><span class="p">,</span><span class="n">op2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">server_end</span><span class="p">()</span> <span class="p">{</span> <span class="n">printf</span><span class="p">(</span><span class="s">"The user gave a correct answer</span><span class="se">\n</span><span class="s">"</span><span class="p">);}</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="nf">server_prompt</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sendstr</span><span class="p">)(</span><span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">static</span> <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+  <span class="n">sprintf</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span><span class="s">"%d %c %d = "</span><span class="p">,</span><span class="n">op1</span><span class="p">,</span><span class="n">operator</span><span class="p">,</span><span class="n">op2</span><span class="p">);</span>
+
+  <span class="n">sendstr</span><span class="p">(</span><span class="n">buff</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">buff</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">server_logic</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">buff</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">resp</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">run</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">guess</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">buff</span><span class="p">);</span>
+  <span class="kt">int</span> <span class="n">answer</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span> <span class="n">operator</span> <span class="o">==</span> <span class="sc">'*'</span> <span class="p">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">op1</span> <span class="o">*</span> <span class="n">op2</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">operator</span> <span class="o">==</span> <span class="sc">'/'</span> <span class="p">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">op1</span> <span class="o">/</span> <span class="n">op2</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">operator</span> <span class="o">==</span> <span class="sc">'+'</span> <span class="p">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">op1</span> <span class="o">+</span> <span class="n">op2</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">operator</span> <span class="o">==</span> <span class="sc">'-'</span> <span class="p">)</span> <span class="n">answer</span> <span class="o">=</span> <span class="n">op1</span> <span class="o">-</span> <span class="n">op2</span><span class="p">;</span>
+
+  <span class="k">if</span> <span class="p">(</span> <span class="n">guess</span> <span class="o">==</span> <span class="n">answer</span> <span class="p">)</span> <span class="p">{</span>
+     <span class="n">strcpy</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">"Correct</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+     <span class="n">run</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span>
+     <span class="n">strcpy</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="s">"Try again</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">run</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="kt">int</span> <span class="nf">server_loop</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">sendstr</span><span class="p">)(</span><span class="kt">char</span> <span class="o">*</span><span class="n">msg</span><span class="p">),</span> <span class="kt">int</span><span class="p">(</span><span class="n">readinput</span><span class="p">)(</span><span class="kt">char</span> <span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="kt">int</span> <span class="n">bsz</span><span class="p">)</span> <span class="p">)</span> <span class="p">{</span>
+  <span class="n">server_prompt</span><span class="p">(</span><span class="n">sendstr</span><span class="p">);</span>
+
+  <span class="kt">char</span> <span class="n">buff</span><span class="p">[</span><span class="mi">100</span><span class="p">],</span> <span class="n">resp</span><span class="p">[</span><span class="mi">100</span><span class="p">];</span>
+  <span class="kt">int</span> <span class="n">n</span><span class="p">,</span><span class="n">run</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+  <span class="n">n</span> <span class="o">=</span> <span class="n">readinput</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+  <span class="n">printf</span><span class="p">(</span><span class="s">"Client Sent:%s</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">buff</span><span class="p">);</span>
+  <span class="n">run</span> <span class="o">=</span> <span class="n">server_logic</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">resp</span><span class="p">);</span>
+  <span class="n">sendstr</span><span class="p">(</span><span class="n">resp</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="n">run</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 
   </div><a class="u-url" href="/lyndon-samson/programming/c/2023/12/01/c-server.html" hidden></a>

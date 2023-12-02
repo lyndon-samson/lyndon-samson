@@ -9,7 +9,9 @@ Hi Everyone this post is about an experiment with a c network server and dynamic
 
 Here is the server code
 
-{% highlight c linenos%}
+
+server.c
+{% highlight c linenos %}
 #include "stdio.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -87,5 +89,134 @@ int main(int argc, char *argv[]) {
 }
 {% endhighlight %}
 
-Not much too it
+Not much too it, under 100 lines of simple code. Note this code is very basic and probably subject to many vulnerabilities and exploits so its for example purposes only.
+
+Now lets look at 2 examples of dynamically loaded logic for the tcp server.
+
+impl1.c
+{% highlight c linenos  %}
+#include "stdio.h"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
+#include <string.h>
+// --------------
+static int num ;
+
+int server_start(int argc, char *argv[]) {
+  num    = atoi(argv[1]);
+  printf("Users have to guess this %d\n",num);
+}
+
+int server_end() { printf("The user guessed the number, exiting server\n");}
+
+char *server_prompt(void (*sendstr)(char *msg)) {
+  static char buff[100];
+  strcpy(buff,"Guess the number:");
+
+  sendstr(buff);
+
+  return buff;
+}
+
+int server_logic(char *buff, char *resp) {
+  int run = 1, guess = atoi(buff);
+
+  if ( guess == num ) {
+     strcpy(resp, "Correct\n");
+     run = 0;
+  } else if ( guess < num )
+     strcpy(resp, "Try again, it is higher\n");
+  else
+     strcpy(resp, "Try again, it is lower\n");
+
+  return run;
+}
+
+int server_loop(void (*sendstr)(char *msg), int(readinput)(char *b, int bsz) ) {
+  server_prompt(sendstr);
+
+  char buff[100], resp[100];
+  int n,run = 1;
+
+  n = readinput(buff, 100);
+  printf("Client Sent:%s\n",buff);
+  run = server_logic(buff, resp);
+  sendstr(resp);
+
+  return run;
+}
+{% endhighlight %}
+
+And here is a different implementation
+
+impl2.c
+{% highlight c linenos %}
+#include "stdio.h"
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
+#include <string.h>
+// --------------
+static int op1 ;
+static int op2 ;
+static char operator ;
+
+int server_start(int argc, char *argv[]) {
+  op1 = atoi(argv[1]);
+  op2 = atoi(argv[3]);
+  operator = argv[2][0];
+  printf("Users have to answer the math question correctly (%d %c %d)\n",op1,operator,op2);
+}
+
+int server_end() { printf("The user gave a correct answer\n");}
+
+char *server_prompt(void (*sendstr)(char *msg)) {
+  static char buff[100];
+  sprintf(buff,"%d %c %d = ",op1,operator,op2);
+
+  sendstr(buff);
+
+  return buff;
+}
+
+int server_logic(char *buff, char *resp) {
+  int run = 1, guess = atoi(buff);
+  int answer;
+
+  if ( operator == '*' ) answer = op1 * op2;
+  if ( operator == '/' ) answer = op1 / op2;
+  if ( operator == '+' ) answer = op1 + op2;
+  if ( operator == '-' ) answer = op1 - op2;
+
+  if ( guess == answer ) {
+     strcpy(resp, "Correct\n");
+     run = 0;
+  } else
+     strcpy(resp, "Try again\n");
+
+  return run;
+}
+
+
+int server_loop(void (*sendstr)(char *msg), int(readinput)(char *b, int bsz) ) {
+  server_prompt(sendstr);
+
+  char buff[100], resp[100];
+  int n,run = 1;
+
+  n = readinput(buff, 100);
+  printf("Client Sent:%s\n",buff);
+  run = server_logic(buff, resp);
+  sendstr(resp);
+
+  return run;
+}
+{% endhighlight %}
 
