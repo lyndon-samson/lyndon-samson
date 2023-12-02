@@ -5,7 +5,7 @@ date:   2023-12-01 06:41:38 -0600
 categories: programming c 
 ---
 
-This post is about an experiment with a c network server and dynamically loaded custom logic with no change to the server base code. 
+This post is about an experiment with a c tcp network server and dynamically loaded custom logic with no change to the server base code. 
 
 Here is the server code
 
@@ -93,6 +93,7 @@ Not much too it, under 100 lines of simple code. Note this code is very basic an
 Now lets look at 2 examples of dynamically loaded logic for the tcp server.
 
 This logic implements a guess the number game, it takes one parameter (the number to guess).
+
 impl1.c
 {% highlight c linenos  %}
 #include "stdio.h"
@@ -340,8 +341,8 @@ Connection closed by foreign host.
 samsonl@lyndonslaptop:~/src/c/pgm1$
 {% endhighlight %}
 
-I thought it was cool anyway :-) The logic in the implmentations doesnt know anything about the network activity, thats all managed by the server code.
+I thought it was cool anyway :-) The logic code in the implmentations doesn't know anything about the network activity, that's all managed by the server code.
 
-source code in the repo here -> [https://github.com/lyndon-samson/c-server](https://github.com/lyndon-samson/c-server)
+Source code in the repo here -> [https://github.com/lyndon-samson/c-server](https://github.com/lyndon-samson/c-server)
 
 

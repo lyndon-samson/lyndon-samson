@@ -7,8 +7,8 @@
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="C based server with dynamically loaded logic" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This post is about an experiment with a c network server and dynamically loaded custom logic with no change to the server base code." />
-<meta property="og:description" content="This post is about an experiment with a c network server and dynamically loaded custom logic with no change to the server base code." />
+<meta name="description" content="This post is about an experiment with a c tcp network server and dynamically loaded custom logic with no change to the server base code." />
+<meta property="og:description" content="This post is about an experiment with a c tcp network server and dynamically loaded custom logic with no change to the server base code." />
 <link rel="canonical" href="https://lyndon-samson.github.io/lyndon-samson/programming/c/2023/12/01/c-server.html" />
 <meta property="og:url" content="https://lyndon-samson.github.io/lyndon-samson/programming/c/2023/12/01/c-server.html" />
 <meta property="og:site_name" content="Lyndon Samsons Home Page" />
@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="C based server with dynamically loaded logic" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://lyndon-samson.github.io/lyndon-samson/programming/c/2023/12/01/c-server.html"},"@type":"BlogPosting","description":"This post is about an experiment with a c network server and dynamically loaded custom logic with no change to the server base code.","headline":"C based server with dynamically loaded logic","dateModified":"2023-12-01T06:41:38-06:00","datePublished":"2023-12-01T06:41:38-06:00","url":"https://lyndon-samson.github.io/lyndon-samson/programming/c/2023/12/01/c-server.html","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://lyndon-samson.github.io/lyndon-samson/programming/c/2023/12/01/c-server.html"},"@type":"BlogPosting","description":"This post is about an experiment with a c tcp network server and dynamically loaded custom logic with no change to the server base code.","headline":"C based server with dynamically loaded logic","dateModified":"2023-12-01T06:41:38-06:00","datePublished":"2023-12-01T06:41:38-06:00","url":"https://lyndon-samson.github.io/lyndon-samson/programming/c/2023/12/01/c-server.html","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/lyndon-samson/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://lyndon-samson.github.io/lyndon-samson/feed.xml" title="Lyndon Samsons Home Page" /></head>
 <body><header class="site-header" role="banner">
@@ -47,7 +47,7 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>This post is about an experiment with a c network server and dynamically loaded custom logic with no change to the server base code.</p>
+    <p>This post is about an experiment with a c tcp network server and dynamically loaded custom logic with no change to the server base code.</p>
 
 <p>Here is the server code</p>
 
@@ -209,8 +209,9 @@
 
 <p>Now lets look at 2 examples of dynamically loaded logic for the tcp server.</p>
 
-<p>This logic implements a guess the number game, it takes one parameter (the number to guess).
-impl1.c</p>
+<p>This logic implements a guess the number game, it takes one parameter (the number to guess).</p>
+
+<p>impl1.c</p>
 
 <figure class="highlight"><pre><code class="language-c" data-lang="c"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
@@ -551,9 +552,9 @@ Correct
 Connection closed by foreign host.
 samsonl@lyndonslaptop:~/src/c/pgm1<span class="err">$</span></code></pre></figure>
 
-<p>I thought it was cool anyway :-) The logic in the implmentations doesnt know anything about the network activity, thats all managed by the server code.</p>
+<p>I thought it was cool anyway :-) The logic code in the implmentations doesn’t know anything about the network activity, that’s all managed by the server code.</p>
 
-<p>source code in the repo here -&gt; <a href="https://github.com/lyndon-samson/c-server">https://github.com/lyndon-samson/c-server</a></p>
+<p>Source code in the repo here -&gt; <a href="https://github.com/lyndon-samson/c-server">https://github.com/lyndon-samson/c-server</a></p>
 
 
   </div><a class="u-url" href="/lyndon-samson/programming/c/2023/12/01/c-server.html" hidden></a>
