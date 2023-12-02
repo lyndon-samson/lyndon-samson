@@ -460,21 +460,29 @@ impl1.c</p>
 
 <p>Run the container</p>
 
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">-it</span> <span class="nt">-v</span> <span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/s"</span> ubuntu</code></pre></figure>
+
 <p>Install the c compiler.</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">apt update
 apt <span class="nb">install </span>build-essential
-apt-get <span class="nb">install </span>manpages-dev</code></pre></figure>
+apt-get <span class="nb">install </span>manpages-dev
+apt-get <span class="nb">install </span>telnet</code></pre></figure>
 
 <p>Since the compiler installation can take a long time, you may want to snapshot the container to speed up subsequent runs.</p>
 
-<p>Replace the container id with your running container after installing and execute this command</p>
+<p>Replace the container id with your running container after installing and execute this command in another tab/window.</p>
 
 <figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker commit 1f41e3e589ad ubuntugcc</code></pre></figure>
 
+<p>Now you can exit the container and start again with the new image and the port mapping setup</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">docker run <span class="nt">-it</span> <span class="nt">-p</span> 8888:8888 <span class="nt">-v</span> <span class="s2">"</span><span class="nv">$PWD</span><span class="s2">:/s"</span> ubuntugcc</code></pre></figure>
+
 <p>Then, to compile the server</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">gcc server.c <span class="nt">-ldl</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">cd</span> /s
+gcc server.c <span class="nt">-ldl</span></code></pre></figure>
 
 <p>To compile the logic into dynamic libraries</p>
 
@@ -483,11 +491,67 @@ gcc impl2.c <span class="nt">-c</span> <span class="nt">-fPIC</span>
 gcc impl1.o <span class="nt">-shared</span> <span class="nt">-o</span> libimpl1.so
 gcc impl2.o <span class="nt">-shared</span> <span class="nt">-o</span> libimpl2.so</code></pre></figure>
 
+<p>the -fPIC option makes the compiled code relocatable which is required for dynamic libraries.</p>
+
 <p>Look at the files in the directory, they should look something like this</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="nb">ls</span> <span class="nt">-ltr</span> </code></pre></figure>
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">root@lyndonslaptop:/s# <span class="nb">ls</span> <span class="nt">-ltr</span>
+total 80
+<span class="nt">-rw-r--r--</span> 1 1000 1000  2028 Nov  9 05:44 server.c
+<span class="nt">-rwxr-xr-x</span> 1 root root 16800 Nov  9 05:47 a.out
+<span class="nt">-rw-r--r--</span> 1 1000 1000  1139 Nov  9 07:01 impl1.c
+<span class="nt">-rw-r--r--</span> 1 1000 1000  1379 Nov  9 07:02 impl2.c
+<span class="nt">-rw-r--r--</span> 1 root root  3144 Nov  9 07:03 impl1.o
+<span class="nt">-rw-r--r--</span> 1 root root  3792 Nov  9 07:03 impl2.o
+<span class="nt">-rwxr-xr-x</span> 1 root root 15960 Nov  9 07:04 libimpl1.so
+<span class="nt">-rwxr-xr-x</span> 1 root root 16048 Nov  9 07:04 libimpl2.so
+root@lyndonslaptop:/s#</code></pre></figure>
+
+<p>This shows the server executable (a.out - yes its nostalgic) and the dynamic libraries ( *.so)</p>
 
 <p>Great, now we can run the server, and telnet to it as a client.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">root@lyndonslaptop:/s# ./a.out ./libimpl1.so 99
+Impl ./libimpl1.so
+Users have to guess this 99
+The server is waiting <span class="k">for </span>an inbound connection on port 8888</code></pre></figure>
+
+<p>In another tab/window connect to the running container server process</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">samsonl@lyndonslaptop:~/src/c/pgm1<span class="nv">$ </span>telnet localhost 8888
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is <span class="s1">'^]'</span><span class="nb">.</span>
+Guess the number:55
+Try again, it is higher
+Connection closed by foreign host.</code></pre></figure>
+
+<p>Lets try the impl2 logic</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">root@787466506cfb:/s# ./a.out ./libimpl2.so 10 + 22
+Impl ./libimpl2.so
+Users have to answer the math question correctly <span class="o">(</span>10 + 22<span class="o">)</span>
+The server is waiting <span class="k">for </span>an inbound connection on port 8888</code></pre></figure>
+
+<p>Then in another tab run the telnet</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">samsonl@lyndonslaptop:~/src/c/pgm1<span class="nv">$ </span>telnet localhost 8888
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is <span class="s1">'^]'</span><span class="nb">.</span>
+10 + 22 <span class="o">=</span> 33
+Try again
+Connection closed by foreign host.
+samsonl@lyndonslaptop:~/src/c/pgm1<span class="nv">$ </span>telnet localhost 8888
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is <span class="s1">'^]'</span><span class="nb">.</span>
+10 + 22 <span class="o">=</span> 32
+Correct
+Connection closed by foreign host.
+samsonl@lyndonslaptop:~/src/c/pgm1<span class="err">$</span></code></pre></figure>
+
+<p>I thought it was cool anyway :-) The logic in the implmentations doesnt know anything about the network activity, thats all managed by the server code.</p>
 
 
   </div><a class="u-url" href="/lyndon-samson/programming/c/2023/12/01/c-server.html" hidden></a>

@@ -228,26 +228,37 @@ We need an environment to run the c compiler, we will use an Unbuntu container i
 
 Run the container
 
+{% highlight bash %}
+docker run -it -v "$PWD:/s" ubuntu
+{% endhighlight %}
+
 Install the c compiler.
 
 {% highlight bash %}
 apt update
 apt install build-essential
 apt-get install manpages-dev
+apt-get install telnet
 {% endhighlight %}
 
 Since the compiler installation can take a long time, you may want to snapshot the container to speed up subsequent runs.
 
-Replace the container id with your running container after installing and execute this command
-{% highlight  bash %}
+Replace the container id with your running container after installing and execute this command in another tab/window.
+{% highlight bash %}
 docker commit 1f41e3e589ad ubuntugcc
 {% endhighlight %}
 
+Now you can exit the container and start again with the new image and the port mapping setup
+
+{% highlight bash %}
+docker run -it -p 8888:8888 -v "$PWD:/s" ubuntugcc
+{% endhighlight %}
 
 
 Then, to compile the server
 
 {% highlight bash %}
+cd /s
 gcc server.c -ldl
 {% endhighlight %}
 
@@ -257,14 +268,78 @@ gcc impl1.c -c -fPIC
 gcc impl2.c -c -fPIC
 gcc impl1.o -shared -o libimpl1.so
 gcc impl2.o -shared -o libimpl2.so
-{%  endhighlight %}
+{% endhighlight %}
+
+the -fPIC option makes the compiled code relocatable which is required for dynamic libraries.
+
+
 
 Look at the files in the directory, they should look something like this
 
 {% highlight bash %}
-ls -ltr 
+root@lyndonslaptop:/s# ls -ltr
+total 80
+-rw-r--r-- 1 1000 1000  2028 Nov  9 05:44 server.c
+-rwxr-xr-x 1 root root 16800 Nov  9 05:47 a.out
+-rw-r--r-- 1 1000 1000  1139 Nov  9 07:01 impl1.c
+-rw-r--r-- 1 1000 1000  1379 Nov  9 07:02 impl2.c
+-rw-r--r-- 1 root root  3144 Nov  9 07:03 impl1.o
+-rw-r--r-- 1 root root  3792 Nov  9 07:03 impl2.o
+-rwxr-xr-x 1 root root 15960 Nov  9 07:04 libimpl1.so
+-rwxr-xr-x 1 root root 16048 Nov  9 07:04 libimpl2.so
+root@lyndonslaptop:/s#
 {% endhighlight %}
+This shows the server executable (a.out - yes its nostalgic) and the dynamic libraries ( *.so)
 
 Great, now we can run the server, and telnet to it as a client.
 
+{% highlight bash %}
+root@lyndonslaptop:/s# ./a.out ./libimpl1.so 99
+Impl ./libimpl1.so
+Users have to guess this 99
+The server is waiting for an inbound connection on port 8888
+{% endhighlight %}
+
+In another tab/window connect to the running container server process
+{% highlight bash %}
+samsonl@lyndonslaptop:~/src/c/pgm1$ telnet localhost 8888
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+Guess the number:55
+Try again, it is higher
+Connection closed by foreign host.
+
+{% endhighlight %}
+
+Lets try the impl2 logic
+
+{% highlight bash %}
+root@787466506cfb:/s# ./a.out ./libimpl2.so 10 + 22
+Impl ./libimpl2.so
+Users have to answer the math question correctly (10 + 22)
+The server is waiting for an inbound connection on port 8888
+{% endhighlight %}
+
+Then in another tab run the telnet
+
+{% highlight bash %}
+samsonl@lyndonslaptop:~/src/c/pgm1$ telnet localhost 8888
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+10 + 22 = 33
+Try again
+Connection closed by foreign host.
+samsonl@lyndonslaptop:~/src/c/pgm1$ telnet localhost 8888
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+10 + 22 = 32
+Correct
+Connection closed by foreign host.
+samsonl@lyndonslaptop:~/src/c/pgm1$
+{% endhighlight %}
+
+I thought it was cool anyway :-) The logic in the implmentations doesnt know anything about the network activity, thats all managed by the server code.
 
