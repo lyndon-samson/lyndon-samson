@@ -9,7 +9,7 @@ Hi Everyone this post is about an experiment with a c network server and dynamic
 
 Here is the server code
 
-{% highlight c %}
+{% highlight c linenos%}
 #include "stdio.h"
 #include <sys/socket.h>
 #include <netinet/in.h>
