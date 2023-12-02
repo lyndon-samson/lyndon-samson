@@ -241,7 +241,7 @@ apt-get install manpages-dev
 apt-get install telnet
 {% endhighlight %}
 
-Since the compiler installation can take a long time, you may want to snapshot the container to speed up subsequent runs.
+Since the compiler installation can take a long time we will snapshot the container to speed up subsequent runs.
 
 Replace the container id with your running container after installing and execute this command in another tab/window.
 {% highlight bash %}
@@ -342,4 +342,7 @@ samsonl@lyndonslaptop:~/src/c/pgm1$
 {% endhighlight %}
 
 I thought it was cool anyway :-) The logic in the implmentations doesnt know anything about the network activity, thats all managed by the server code.
+
+source code in the repo here -> https://github.com/lyndon-samson/c-server
+
 
