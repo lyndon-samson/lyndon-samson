@@ -345,7 +345,7 @@ I thought it was cool anyway :-) The logic code in the implementations doesn't k
 
 Source code in the repo here -> [https://github.com/lyndon-samson/c-server](https://github.com/lyndon-samson/c-server)
 
-{ if site.comments.giscus.enabled }
+{% if site.comments.giscus.enabled %}
 <script src="https://giscus.app/client.js"
         data-repo="lyndon-samson/lyndon-samson"
         data-repo-id="R_kgDOK0ZHmw"
@@ -362,5 +362,5 @@ Source code in the repo here -> [https://github.com/lyndon-samson/c-server](http
         async>
 </script>
 <noscript>Please enable JavaScript to view the comments.</noscript>
-{ end }
+{% endif %}
 
