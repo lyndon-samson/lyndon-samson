@@ -5,10 +5,10 @@ date:   2023-12-07 06:41:38 -0600
 categories: programming c 
 ---
 
-This post is about compiling the little language LUA in the google cloud shell. Lua is interesting as it is easy to embedd and east to extend.
+This post is about compiling the little language Lua in the google cloud shell. Lua is interesting as it is easy to embedd and east to extend.
 
 Lets run a google cloudshell, login to the google console and run the cloudshell
-https://console.cloud.google.com
+(https://console.cloud.google.com)[https://console.google.com]
 
 Now we can install the Tiny C compile 
 {% highlight c %}
