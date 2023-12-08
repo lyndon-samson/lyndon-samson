@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Compile lua from source in google cloud shell"
+title:  "Compile Lua from source in google cloud shell"
 date:   2023-12-07 06:41:38 -0600
 categories: programming c 
 ---
@@ -8,7 +8,8 @@ categories: programming c
 This post is about compiling the little language [Lua](https://www.lua.org/download.html) in the google cloud shell. Lua is interesting as it is easy to embedd and east to extend.
 
 Lets run a google cloudshell, login to the google console and run the cloudshell
-[https://console.cloud.google.com](https://console.google.com)
+[console.cloud.google.com](https://console.google.com)
+
 
 Now we can install the Tiny C compile 
 {% highlight c %}
