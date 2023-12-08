@@ -10,6 +10,7 @@ This post is about compiling the little language [Lua](https://www.lua.org/downl
 Lets run a google cloudshell, login to the google console and run the cloudshell
 [https://console.cloud.google.com/](https://console.cloud.google.com/)
 
+![assets/images/screenshot_01.png]
 
 Now we can install the Tiny C compile 
 {% highlight c %}
