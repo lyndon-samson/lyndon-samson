@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Compile lua from source in google cloud shell"
-date:   2023-12-08 06:41:38 -0600
+date:   2023-12-07 06:41:38 -0600
 categories: programming c 
 ---
 
