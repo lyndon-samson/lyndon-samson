@@ -8,7 +8,7 @@ categories: programming c
 This post is about compiling the little language [Lua](https://www.lua.org/download.html) in the google cloud shell. Lua is interesting as it is easy to embedd and east to extend.
 
 Lets run a google cloudshell, login to the google console and run the cloudshell
-[console.cloud.google.com](https://console.google.com)
+[https://console.cloud.google.com/](https://console.cloud.google.com/)
 
 
 Now we can install the Tiny C compile 
