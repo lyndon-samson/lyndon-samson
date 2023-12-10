@@ -71,4 +71,97 @@ samsonl@samsonl:~/git/multi-cloud-webapp/scripts$ aws ec2 describe-images  --que
 |  2023-12-09T05:26:59.000Z |  ami-0d2e150968bcdc4c1 |  debian-12-amd64-daily-20231209-1589               |
 +---------------------------+------------------------+----------------------------------------------------+
 
+
+On the host
+
+install docker
+
+build image with python + postgres
+
+admin@ip-10-0-0-27:~$ cat cmds.txt  | cut -c8- | sort | uniq -c | grep -v vi | grep -v history | grep -v netstat | grep -v lsof | grep -v kill | grep -v logs
+      2
+      2   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" |   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      2 # Add the repository to Apt sources:
+      1 apt-get install dig
+      1 cat quotes.txt | grep -i lauren
+      1 cat quotes.txt | grep -i shoot
+      1 cat quotes.txt | grep sunsh
+      2 cat quotes.txt | grep worth
+      1 cat quotes.txt | worth
+      2 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      2 curl http://localhost:8000
+     22 curl http://localhost:8000/dsfsdfsdf
+      1 dig mcp.devlinker.com
+      2 docker
+      2 docker build . -t python-postgres
+      2 docker exec -it  6a2478c54123 psql -h localhost -U postgres
+      4 docker images
+      2 docker inspect 33ad5e254cc4
+      2 docker log 6a2478c54123
+     46 docker ps
+      8 docker ps -a
+      2 docker pull docker pull postgres:14.5
+      2 docker pull postgres:14.5
+      2 docker rm 6a2478c54123
+     12 docker run   --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python3 test.py
+     19 docker run  --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python3 test.py
+      2 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+      2 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:14.5
+      2 docker run --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python test.py
+      2 docker run --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python test.py"
+      2 docker run --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python2 test.py
+     16 docker run --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python3 test.py
+      8 docker run --network host -it --rm --name runpy -v "$PWD":/src -w /src python:3 sh -c "pip3 install psycopg2 &&  python test.py"
+      2 docker run --rm --network host -v $PWD/data:/var/lib/postgresql/data --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:14.5
+      2 docker run --rm --v $PWD/data:/var/lib/postgresql/data --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:14.5
+      2 docker run --rm -v $PWD/data:/var/lib/postgresql/data --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:14.5
+      6 docker run -d  --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python3 test.py
+     20 docker run -d --network host -it --rm --name runpy -v "$PWD":/src -w /src python-postgres:latest python3 test.py
+      2 docker run -it --rm --name runpy -v "$PWD":/src -w /src python:3 "pip3 install psycopg2 &&  python test.py"
+      6 docker run -it --rm --name runpy -v "$PWD":/src -w /src python:3 python test.py
+      6 docker run -it --rm --name runpy -v "$PWD":/src -w /src python:3 sh -c "pip3 install psycopg2 &&  python test.py"
+     11 docker run -it --rm --network host postgres:14.5 psql -h localhost -U postgres
+      2 docker run -it --rm --network host postgres:14.5 psql -h some-postgres -U postgres
+      2 docker run -it --rm --network some-network postgres psql -h some-postgres -U postgres
+      2 docker run -it --rm --network some-network postgres:14.5 psql -h some-postgres -U postgres
+      1 docker run -it -v$CWD:/data  --rm --network host postgres:14.5 psql -h localhost -U postgres
+      6 docker run -it -v$PWD:/data  --rm --network host postgres:14.5 psql -h localhost -U postgres
+      1 docker run -it -v$PWD:/data  --rm --network host postgres:14.5 psql -h localhost -U postgres --help
+      5 docker run -it -v$PWD:/data  --rm --network host postgres:14.5 psql -h localhost -U postgres -f /data/quotes.txt
+      1 docker run -it -v$PWD:/data  --rm --network host postgres:14.5 psql -h localhost -U postgres -f /data/x
+      1 docker run -it -v$PWD:/data  --rm --network host postgres:14.5 psql -h localhost -U postgres -h
+      2 docker run -rm -v $PWD/data:/var/lib/postgresql/data --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:14.5
+      4 docker run -v $PWD/data:/var/lib/postgresql/data --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres:14.5
+      2 docker run hello-world
+      2 echo   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+      2 ex
+      9 exit
+      2 free -h
+      4 ip addr
+     18 ls -ltr
+      2 ls -ltr data
+      2 mkdir data
+      1 nslookup mcp.devlinker.com
+      2 ocker run -it --rm --network some-network postgres psql -h some-postgres -U postgres
+      2 psql
+      2 python
+      2 sudo ap-get install docker
+      2 sudo apt-get install ca-certificates curl gnupg
+      1 sudo apt-get install dig
+      2 sudo apt-get install docker
+      2 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+      2 sudo apt-get install dockerd
+      2 sudo apt-get install networktools
+      1 sudo apt-get install nslookup
+      4 sudo apt-get update
+      2 sudo chmod a+r /etc/apt/keyrings/docker.gpg
+      2 sudo du -a data
+      2 sudo groupadd docker
+      2 sudo install -m 0755 -d /etc/apt/keyrings
+      2 sudo systemctl start docker
+      2 sudo usermod -aG docker $USER
+      2 systemctl start docker
+      2 uptime
+admin@ip-10-0-0-27:~$
+admin@ip-10-0-0-27:~$
  
