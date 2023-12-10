@@ -5,7 +5,7 @@ date:   2023-12-07 06:41:38 -0600
 categories: programming c 
 ---
 
-This post is about compiling the little language [Lua](https://www.lua.org/download.html) in the google cloud shell. Lua is interesting as it is easy to embedd and east to extend.
+This post is about compiling the little language [Lua](https://www.lua.org/download.html) in the google cloud shell. Lua is interesting as it is easy to embedd and easy to extend.
 
 Lets run a google cloudshell, login to the google console and run the cloudshell
 [https://console.cloud.google.com/](https://console.cloud.google.com/)
